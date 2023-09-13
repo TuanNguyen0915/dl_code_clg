@@ -89,8 +89,6 @@ function sumNumbers(arr) {
 }
 
 
-
-
 /*-----------------------------------------------------------------------------
 Challenge: 04-addList
 
@@ -111,8 +109,9 @@ addList(7,-12) //=> -5
 -----------------------------------------------------------------------------*/
 // Your solution for 04-addList here:
 
-
-
+function addList(...arr) {
+  return arr.reduce((sum, num) => sum + num, 0)
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -138,8 +137,27 @@ computeRemainder(10.5, 3) //=> 1.5
 -----------------------------------------------------------------------------*/
 // Your solution for 05-computeRemainder:
 
+function computeRemainder(n1, n2) {
+  // Using %
+  // return n2 === 0 ? Infinity : n1 % n2
 
 
+  // Using math logic
+  //? I didn't know the name of this method. I learned it long time ago at my middle school
+
+  if (n2 === 0) {
+    return Infinity
+  } else {
+    let remainder = n1
+    // Using while loop to get the reminder
+    while (remainder >= n2) {
+      remainder -= n2
+    }
+    return remainder
+  }
+}
+
+console.log(computeRemainder(10, 6));
 
 
 /*-----------------------------------------------------------------------------

@@ -520,6 +520,10 @@ mergeObjects({a: 1, b: 2, c: 3}, {d: 4}, {b: 22, d: 44})
 // Your solution for 15-mergeObjects here:
 
 
+function mergeObjects(...objs) {
+  // Using assign of Object
+  return Object.assign(...objs)
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -559,9 +563,16 @@ findHighestPriced([
 //=> { sku: 'b2', price: 50 }
 -----------------------------------------------------------------------------*/
 // Your solution for 16-findHighestPriced here:
-
-
-
+function findHighestPriced(arr) {
+  let sortArr = arr.sort((obj1, obj2) => {
+    if (obj1.price < obj2.price) {
+      return 1
+    } else if (obj1.price >= obj2.price) {
+      return -1
+    }
+  })
+  return sortArr[0]
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -598,8 +609,15 @@ mapArray( ['rose', 'tulip', 'daisy'], function(f, i) {
 -----------------------------------------------------------------------------*/
 // Your solution for 17-mapArray here:
 
-
-
+function mapArray(arr, callbackFunction) {
+  // using loop with arr.length to make sure the the result array have the same length
+  // push the callbackFunction to result with the parameters: the element in arr, and index of arr
+  let result = []
+  for (let i = 0; i < arr.length; i++) {
+    result.push(callbackFunction(arr[i], i, arr))
+  }
+  return result
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -648,7 +666,20 @@ reduceArray( ['Yes', 'No', 'Yes', 'Maybe'], function(acc, v) {
 //=> {"Yes": 2, "No": 1, "Maybe": 1}
 -----------------------------------------------------------------------------*/
 // Your solution for 18-reduceArray here:
-
+function reduceArray(arr, cbFunction, init) {
+  /*
+  Set the result = initial value, it just works for first time in loop
+  Using forEach for array to loops all element in arr
+  Invoke the call back function every loops
+  The value of result will depend on call back function
+  */
+  let result = init
+  // for (let i = 0; i < arr.length; i++) {
+  //   result = cbFunction(result, arr[i], i)
+  // }
+  arr.forEach((ele, idx) => result = cbFunction(result, ele, idx))
+  return result
+}
 
 
 
@@ -675,8 +706,17 @@ isPrime(200) //=> false
 -----------------------------------------------------------------------------*/
 // Your solution for 19-isPrime here:
 
-
-
+function isPrime(num) {
+  // check the number is integer or not
+  if (!Number.isInteger(num)) return false
+  // if number < 1, return false
+  if (num < 2) return false
+  for (let i = 2; i < num; i++) {
+    if (num % i === 0) return false
+  }
+  return true
+}
+console.log(isPrime(2));
 
 
 /*-----------------------------------------------------------------------------

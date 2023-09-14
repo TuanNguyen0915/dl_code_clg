@@ -716,7 +716,6 @@ function isPrime(num) {
   }
   return true
 }
-console.log(isPrime(2));
 
 
 /*-----------------------------------------------------------------------------
@@ -743,9 +742,22 @@ intersection(['a', 1], [true, 'a', 15]) //=> ['a']
 intersection([1, 'a', true, 1, 1], [true, 1, 'b', 1]) //=> [1, true, 1]
 -----------------------------------------------------------------------------*/
 // Your solution for 20-intersection here:
-
-
-
-
+function intersection(arr1, arr2) {
+  /*
+  Create an empty array is named result
+  Using forEach to loop through element in arr1
+  Using includes for arr2 to check the common element with arr1
+  If the element is common, add it to result and find the index of this element in the arr2 and remove it from the arr2 to avoid repeating
+  */
+  let result = []
+  arr1.forEach(ele => {
+    if (arr2.includes(ele)) {
+      result.push(ele)
+      let idx = arr2.indexOf(ele)
+      arr2.splice(idx, 1)
+    }
+  })
+  return result
+}
 
 /*---------------------------------------------------------------------------*/

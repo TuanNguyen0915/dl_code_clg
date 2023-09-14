@@ -157,8 +157,6 @@ function computeRemainder(n1, n2) {
   }
 }
 
-console.log(computeRemainder(10, 6));
-
 
 /*-----------------------------------------------------------------------------
 Challenge: 06-range
@@ -183,7 +181,16 @@ range(5,2) //=> "First argument must be less than second"
 -----------------------------------------------------------------------------*/
 // Your solution for 06-range here:
 
-
+function range(n1, n2) {
+  if (n1 > n2) {
+    return "First argument must be less than second"
+  }
+  let res = []
+  for (let i = n1; i < n2; i++) {
+    res.push(i)
+  }
+  return res
+}
 
 
 
@@ -204,7 +211,10 @@ reverseUpcaseString("SEI Rocks!") //=> "!SKCOR IES"
 -----------------------------------------------------------------------------*/
 // Your solution for 07-reverseUpcaseString here:
 
-
+function reverseUpcaseString(str) {
+  // I upperCase the string first. Then split to an array. Reverse the array and join the array to get the result
+  return str.toUpperCase().split("").reverse().join("")
+}
 
 
 
@@ -226,8 +236,10 @@ removeEnds('a') //=> "" (empty string)
 -----------------------------------------------------------------------------*/
 // Your solution for 08-removeEnds here:
 
-
-
+function removeEnds(str) {
+  // return the string from 2nd index to the index before the last one
+  return str.length < 3 ? "" : str.slice(1, -1)
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -240,7 +252,7 @@ Prompt:
 - Write a function named charCount that accepts a single string argument and
   returns an object that represents the count of each character in the string.
 - The returned object should have keys representing the character with its
-  value set to the number of times the character appears in the string argument.
+  value set t the number of times the character appears in the string argument.
 - Upper and lower case characters should be counted separately.
 - Space characters should be counted too.
 
@@ -267,8 +279,23 @@ charCount('Today is fantastic!')
 }
 -----------------------------------------------------------------------------*/
 // Your solution for 09-charCount here:
+function charCount(str) {
+  // Using split and reduce. But I like using for of loop, it looks simple
+  // return str.split("").reduce((prev, char) => {
+  //   if (prev[char]) prev[char] = prev[char] + 1
+  //   else prev[char] = 1
+  //   return prev
+  // }, {})
 
+  // Using for loop, but I like to use reduce more than for of loop
+  let res = {}
+  for (let c of str) {
+    if (res[c]) res[c] = res[c] + 1
+    else res[c] = 1
+  }
+  return res
 
+}
 
 
 
@@ -298,8 +325,16 @@ formatWithPadding(1234, '*', 3) //=> "1234"
 -----------------------------------------------------------------------------*/
 // Your solution for 10-formatWithPadding here:
 
-
-
+function formatWithPadding(number, str, numLength) {
+  // Convert the number to string, if length of new string > numLength,
+  // return itself.
+  // Using repeat with numbers of repeat based on  numLength minus numberStr.length, and the rest of return string is numberStr
+  let numberStr = number.toString()
+  if (numberStr.length > numLength) {
+    return numberStr
+  }
+  return `${str.repeat(numLength - numberStr.length)}${numberStr}`
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -326,8 +361,38 @@ isPalindrome('') //=> true
 -----------------------------------------------------------------------------*/
 // Your solution for 11-isPalindrome here:
 
+// function isPalindrome(str) {
+//   if (str.length <= 1) return true
 
+//   // Check if string have space (phrase), return true
+//   for (let c of str) {
+//     if (c === " ") return true
+//   }
 
+//   for (let i = 0; i < Math.floor(str.length / 2); i++) {
+//     if (str[i] !== str[str.length - 1 - i]) {
+//       return false
+//     }
+//   }
+//   return true
+// }
+
+function isPalindrome(str) {
+  if (str.length <= 1) return true
+
+  //formatArr will make the array based on character of str and without empty space
+  let orgArr = str.split("")
+  let formatArr = []
+  for (let c of orgArr) {
+    if (c !== " ") formatArr.push(c.toLowerCase())
+  }
+
+  // Check Palindrome, i just compare half length string to save time
+  for (let i = 0; i < Math.floor(formatArr.length / 2); i++) {
+    if (formatArr[i] !== formatArr[formatArr.length - 1 - i]) return false
+  }
+  return true
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -355,9 +420,15 @@ hammingDistance('!!!!', '****') //=> 4
 hammingDistance('abc', 'ab') //=> NaN
 -----------------------------------------------------------------------------*/
 // Your solution for 12-hammingDistance here:
-
-
-
+function hammingDistance(str1, str2) {
+  if (str1.length !== str2.length) return NaN
+  let count = 0
+  //compare the same index of 2 strings, if it's difference, count increase by 1
+  for (let i = 0; i < str1.length; i++) {
+    if (str1[i] !== str2[i]) count++
+  }
+  return count
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -382,9 +453,15 @@ mumble('121') //=> '1-22-111'
 mumble('!A 2') //=> '!-AA-   -2222'
 -----------------------------------------------------------------------------*/
 // Your solution for 13-mumble here:
-
-
-
+function mumble(str) {
+  // Create an empty arr
+  // Loops through the string and repeat the character by number of index + 1
+  let res = []
+  for (let i = 0; i < str.length; i++) {
+    res.push(str[i].repeat(i + 1))
+  }
+  return res.join('-')
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -407,9 +484,12 @@ fromPairs([ ['a', 1], ['b', 2], ['c', 3] ]) //=> { a: 1, b: 2, c: 3 }
 fromPairs([ ['name', 'Sam"], ['age', 24], ['name', 'Sally'] ]) //=> { name: "Sally", age: 24 }
 -----------------------------------------------------------------------------*/
 // Your solution for 14-fromPairs here:
-
-
-
+function fromPairs(arr) {
+  return arr.reduce((obj, nestedArr) => {
+    obj[nestedArr[0]] = nestedArr[1]
+    return obj
+  }, {})
+}
 
 
 /*-----------------------------------------------------------------------------
@@ -438,7 +518,6 @@ mergeObjects({a: 1, b: 2, c: 3}, {d: 4}, {b: 22, d: 44})
 //=> {a: 1, b: 22, c: 3, d: 44}
 -----------------------------------------------------------------------------*/
 // Your solution for 15-mergeObjects here:
-
 
 
 
